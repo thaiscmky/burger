@@ -20,7 +20,11 @@ function connectDB(){
                         console.log('Database created');
                         console.log(result);
                         newConnection.end();
-                        connectDB();
+                        //connectDB(); <--this doesn't seem to be working...
+                        rdbms = mysql.createConnection(
+                            process.env.JAWSDB_URL ? process.env.JAWSDB_URL : rdbms.info
+                        );
+                        resolve(rdbms);
                     });
                 }
                 else
