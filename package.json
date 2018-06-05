@@ -1,0 +1,20 @@
+{
+  "name": "yumburger",
+  "version": "0.1.0",
+  "description": "A restaurant app that lets customers input custom burger names they'd like to eat",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thaiscmky/burger.git"
+  },
+  "author": "Thais Cailet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thaiscmky/burger/issues"
+  },
+  "homepage": "https://github.com/thaiscmky/burger#readme"
+}
