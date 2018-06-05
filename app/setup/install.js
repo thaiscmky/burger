@@ -1,10 +1,13 @@
+/***
+ * For some reason, install file still needs to be run twice in order to create the DB AND install sample data
+ */
 const path = require('path');
 const connection = require(path.join(__dirname,'../','/config/connection'));
 const fs = require('fs');
 const csvparse = require("csv-parse");
 
 function installSchema(sql){
-    connection.then(conn => {
+    return connection.then(conn => {
         console.log('Installing schema');
         conn.query(sql, function (err, result, fields){
             if(err){
@@ -14,24 +17,29 @@ function installSchema(sql){
             console.log(result);
         });
     }).then( function(){
-        readFile(path.join(__dirname,'/db/seeds.csv'), 'csv');
+        readFile(path.join(__dirname,'/db/seeds.csv'), 'seed');
+    }).then( function() {
+        process.exit(0);
     }).catch(err => err.message);
 }
 function installSampleData(csv, table){
 
-    csvparse(csv, { columns: true, delimiter: ',' }, function(err, data) {
-        if (err)
-            throw err;
-        data.forEach(function(rowObj){
-            let fields = Object.keys(rowObj);
-            let values = Object.values(rowObj).map(function(value){ return Number(value) ? value : `"${value}"`; });
-            let sql = `INSERT INTO ${connection.info.database}.${table}(${fields.join(', ')}) VALUES(${values.join(',')});`;
-            connection.query(sql, function (error) {
-                if (error) throw error;
+    return connection.then(conn => {
+        console.log('Installing sample data');
+        csvparse(csv, { columns: true, delimiter: ',' }, function(err, data) {
+            if (err)
+                throw err;
+            data.forEach(function(rowObj){
+                let fields = Object.keys(rowObj);
+                let values = Object.values(rowObj).map(function(value){ return Number(value) ? value : `"${value}"`; });
+                let sql = `INSERT INTO ${conn.info.database}.${table}(${fields.join(', ')}) VALUES(${values.join(',')});`;
+                conn.query(sql, function (error) {
+                    if (error) throw error;
+                });
             });
+        }).on('finish', function(){
+            console.log(`Sample data install complete.`);
         });
-    }).on('finish', function(){
-        console.log(`Sample data install complete.`);
     });
 }
 
