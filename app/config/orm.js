@@ -12,12 +12,12 @@ Orm.prototype.selectAll = function() {
     const sql = 'SELECT * FROM ??';
     return this.ormPromise(sql, [this.table]);
 };
-Orm.prototype.insertOne = function(name) {
+Orm.prototype.insertItem = function(name) {
     const sql = 'INSERT INTO ?? (??) VALUES (?)';
     const values = [this.table, name.label, name.value];
     return this.ormPromise(sql, values);
 };
-Orm.prototype.eatOne = function(id, name, boolean) {
+Orm.prototype.upDateItem = function(id, name, boolean) {
     const sql = 'UPDATE ?? SET ?? = ? WHERE ?? = ?';
     const values = [this.table, name.label, name.value, boolean.label, boolean.value ];
     return this.ormPromise(sql, values);
