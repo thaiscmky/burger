@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "node ./app/setup/install.js",
+    "postinstall" : "node ./app/setup/install.js",
     "start": "node server.js"
   },
   "repository": {

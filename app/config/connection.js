@@ -14,18 +14,7 @@ function connectDB(){
                 if(err.code === 'ER_BAD_DB_ERROR'){
                     let extractedDbName = err.message.match(/'(.*?)'/)[1];
                     if (!process.env.JAWSDB_URL) delete dbconfig.database;
-                    const newConnection = mysql.createConnection(process.env.JAWSDB_URL ? process.env.JAWSDB_URL : dbconfig);
-                    newConnection.query('CREATE DATABASE ??', [extractedDbName], function (error, result, fields) {
-                        if (error) throw error.message;
-                        console.log('Database created');
-                        console.log(result);
-                        newConnection.end();
-                        //connectDB(); <--this doesn't seem to be working...
-                        rdbms = mysql.createConnection(
-                            process.env.JAWSDB_URL ? process.env.JAWSDB_URL : rdbms.info
-                        );
-                        resolve(rdbms);
-                    });
+                        resolve(extractedDbName);
                 }
                 else
                     reject(err);
@@ -35,7 +24,24 @@ function connectDB(){
                 resolve(rdbms);
             }
         });
-    });
+    }).then(function(database){
+        if(typeof database === 'string'){
+            const newConnection = mysql.createConnection(process.env.JAWSDB_URL ? process.env.JAWSDB_URL : dbconfig);
+            newConnection.query('CREATE DATABASE ??', [database], function (error, result, fields) {
+                if (error) throw error.message;
+                console.log('Database created');
+                console.log(result);
+                connectDB();
+                newConnection.end();
+                rdbms = mysql.createConnection(
+                    process.env.JAWSDB_URL ? process.env.JAWSDB_URL : rdbms.info
+                );
+
+            });
+        } else {
+            return database;
+        }
+    }).catch(error => error);
 }
 
 module.exports = connectDB();
