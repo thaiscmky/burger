@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-12" id="header">
+        <h1>Welcome to YumBurger!</h1>
+        <h2>Where the burger of  your dreams comes true!</h2>
+    </div>
+</div>
+<div class="row m-5" id="container">
+    <div class="col-3 text-left" id="left-column">
+        <h3>Available:</h3>
+        <ul>
+            {{#each this.burger}}
+                {{#unless this.devoured}}
+                <li>{{this.name}}(ID:{{this.id}})</li>
+                {{/unless}}
+            {{/each}}
+        </ul>
+    </div>
+    <div class="col" id="mid-column">
+        <h3>Request a Burger:</h3>
+        <div class="text-left">
+            {{>_burger-form}}
+        </div>
+    </div>
+    <div class="col-3 text-left" id="right-column">
+        <h3>Eaten:</h3>
+        <ul>
+            {{#each this.burger}}
+                {{#if this.devoured}}
+                    <li>{{this.name}}(ID:{{this.id}})</li>
+                {{/if}}
+            {{/each}}
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12" id="footer">
+
+    </div>
+</div>

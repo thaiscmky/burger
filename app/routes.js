@@ -6,9 +6,6 @@ const path = require('path');
 const Orm = require(__basedir + '/app/config/orm');
 
 router.get("/", function(req, res) {
-    const query = new Orm('burger');
-    let x = query.selectAll();
-    x.then(y => console.log(y));
-    res.json('hi');
+    res.render('index');
 });
 module.exports = router;
