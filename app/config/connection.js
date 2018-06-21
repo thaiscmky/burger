@@ -6,7 +6,7 @@ if(process.env.JAWSDB_URL)
 else dbconfig = require(path.join(__dirname,'/config.json')).dbconfig;
 
 let rdbms = mysql.createConnection(dbconfig);
-rdbms.info = dbconfig;
+rdbms.info = process.env.JAWSDB_URL ? false : dbconfig;
 
 function connectDB(){
 
@@ -14,7 +14,7 @@ function connectDB(){
         rdbms.connect(function(err){
             if(err){
                 if(err.code === 'ER_BAD_DB_ERROR'){
-                    let extractedDbName = err.message.match(/'(.*?)'/)[1];
+                    let extractedDbName = process.env.JAWSDB_URL ? err.message.match(/'(.*?)'/)[1];
                     if (!process.env.JAWSDB_URL) delete dbconfig.database;
                         resolve(extractedDbName);
                 }
@@ -27,7 +27,7 @@ function connectDB(){
             }
         });
     }).then(function(database){
-        if(typeof database === 'string'){
+        if(typeof database === 'string' && !process.env.JAWSDB_URL){
             const newConnection = mysql.createConnection(process.env.JAWSDB_URL ? process.env.JAWSDB_URL : dbconfig);
             newConnection.query('CREATE DATABASE ??', [database], function (error, result, fields) {
                 if (error) throw error.message;
