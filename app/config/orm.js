@@ -17,9 +17,14 @@ Orm.prototype.insertItem = function(name) {
     const values = [this.table, name.label, name.value];
     return this.ormPromise(sql, values);
 };
-Orm.prototype.upDateItem = function(id, name, boolean) {
+Orm.prototype.getItem = function(name) {
+    const sql = 'SELECT * FROM ?? WHERE ?? = ?';
+    const values = [this.table, name.label, name.value];
+    return this.ormPromise(sql, values);
+};
+Orm.prototype.upDateItem = function(id, boolean) {
     const sql = 'UPDATE ?? SET ?? = ? WHERE ?? = ?';
-    const values = [this.table, name.label, name.value, boolean.label, boolean.value ];
+    const values = [this.table, 'devoured', boolean, 'id', id ];
     return this.ormPromise(sql, values);
 };
 Orm.prototype.ormPromise = function(sql, values){

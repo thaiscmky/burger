@@ -1,11 +1,18 @@
 global.__basedir = __dirname;
+const fontawesome = require('@fortawesome/fontawesome');
+const faUser = require('@fortawesome/fontawesome-free-solid/faUser');
+const faCircle = require('@fortawesome/fontawesome-free-regular/faCircle');
+const faFacebook = require('@fortawesome/fontawesome-free-brands/faFacebook');
+
+fontawesome.library.add(faUser);
+fontawesome.library.add(faCircle);
+fontawesome.library.add(faFacebook);
+
 const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser= require("body-parser");
 const exphbs = require("express-handlebars");
-/*const routes = require(path.join(__basedir, "/controllers/burgers_controller"));*/
-
 
 app.use(express.static('app/public'));
 
@@ -22,7 +29,7 @@ app.engine("handlebars", exphbs({
 app.set("view engine",'handlebars');
 
 //routes
-let routes = require(__basedir + "/app/routes");
+let routes = require(path.join(__basedir, '/app/controllers/burger_controller'));
 app.use(routes);
 
 //start server

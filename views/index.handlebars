@@ -5,12 +5,12 @@
     </div>
 </div>
 <div class="row m-5" id="container">
-    <div class="col-3 text-left" id="left-column">
+    <div class="col-3 text-left" id="notdevoured">
         <h3>Available:</h3>
         <ul>
-            {{#each this.burger}}
+            {{#each burgers}}
                 {{#unless this.devoured}}
-                <li>{{this.name}}(ID:{{this.id}})</li>
+                <li id="{{this.id}}">{{this.name}}(ID:{{this.id}})</li>
                 {{/unless}}
             {{/each}}
         </ul>
@@ -21,12 +21,12 @@
             {{>_burger-form}}
         </div>
     </div>
-    <div class="col-3 text-left" id="right-column">
+    <div class="col-3 text-left" id="devoured">
         <h3>Eaten:</h3>
         <ul>
-            {{#each this.burger}}
+            {{#each burgers}}
                 {{#if this.devoured}}
-                    <li>{{this.name}}(ID:{{this.id}})</li>
+                    <li id="{{this.id}}">{{this.name}}(ID:{{this.id}})</li>
                 {{/if}}
             {{/each}}
         </ul>
