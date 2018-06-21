@@ -1,9 +1,11 @@
 const mysql = require("mysql2");
 const path = require("path");
-const dbconfig = require(path.join(__dirname,'/config.json')).dbconfig;
-let rdbms = mysql.createConnection(
-    process.env.JAWSDB_URL ? process.env.JAWSDB_URL : dbconfig
-);
+let dbconfig = {};
+if(process.env.JAWSDB_URL)
+    dbconfig =  process.env.JAWSDB_URL;
+else dbconfig = require(path.join(__dirname,'/config.json')).dbconfig;
+
+let rdbms = mysql.createConnection(dbconfig);
 rdbms.info = dbconfig;
 
 function connectDB(){
