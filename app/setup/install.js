@@ -2,7 +2,8 @@ const path = require('path');
 const connection = require(path.join(__dirname,'../','/config/connection'));
 const fs = require('fs');
 const csvparse = require("csv-parse");
-
+//this isn't working correctly on heroku, so import it manually
+if(!process.env.JAWSDB_URL)
 connection.then(function(conn) {
     console.log('Installing schema');
     let filepath = path.join(__dirname,'/db/schema.sql');
