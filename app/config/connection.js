@@ -14,7 +14,7 @@ function connectDB(){
         rdbms.connect(function(err){
             if(err){
                 if(err.code === 'ER_BAD_DB_ERROR'){
-                    let extractedDbName = process.env.JAWSDB_URL ? err.message.match(/'(.*?)'/)[1];
+                    let extractedDbName = process.env.JAWSDB_URL ? process.env.JAWSDB_URL : err.message.match(/'(.*?)'/)[1];
                     if (!process.env.JAWSDB_URL) delete dbconfig.database;
                         resolve(extractedDbName);
                 }
